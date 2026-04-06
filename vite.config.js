@@ -87,5 +87,10 @@ function progressApiPlugin() {
 }
 
 export default defineConfig({
-  plugins: [react(), progressApiPlugin()]
+  plugins: [react(), progressApiPlugin()],
+  test: {
+    environment: 'happy-dom',
+    globals: true,
+    setupFiles: './src/test/setup.js'
+  }
 });

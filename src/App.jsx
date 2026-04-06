@@ -1,7 +1,10 @@
 import { useMemo, useState } from 'react';
 import ExerciseEngine from './components/ExerciseEngine';
+import FocusCard from './components/FocusCard';
 import LessonWorkbench from './components/LessonWorkbench';
+import MetricRow from './components/MetricRow';
 import OnboardingJourney from './components/OnboardingJourney';
+import ScreenShell from './components/ScreenShell';
 import WeakAreasPanel from './components/WeakAreasPanel';
 import useCourseProgress from './hooks/useCourseProgress';
 import useHashRoute from './hooks/useHashRoute';
@@ -218,64 +221,46 @@ function App() {
   };
 
   const renderToday = () => (
-    <section className="screen-card hero-screen">
-      <span className="eyebrow">Today</span>
-      <h1>{isOnboarding ? 'Start with your first Dutch words and sentences.' : 'Today you have one clear next lesson.'}</h1>
-      <p className="screen-copy">
-        {isOnboarding
-          ? 'This onboarding step is for complete beginners. Learn a few core words, build tiny sentences, and get comfortable before A1 opens up.'
-          : 'The app now follows a guided exam-prep loop: learn one pattern, drill it, do one exam-style task, then review mistakes.'}
-      </p>
-
-      <article className="selection-card current-stage-card">
-        <span className="eyebrow">{isOnboarding ? 'Start here' : `${currentStage.level} next`}</span>
-        <h2>{currentUnit.theme ?? currentUnit.module}</h2>
-        <p>{currentStage.tip}</p>
-      </article>
-
-      <div className="screen-stats">
-        <article>
-          <strong>{completedStages}</strong>
-          <span>stages complete</span>
-        </article>
-        <article>
-          <strong>{accuracy}%</strong>
-          <span>exercise accuracy</span>
-        </article>
-        <article>
-          <strong>{syncLabel}</strong>
-          <span>progress state</span>
-        </article>
-      </div>
-
-      <div className="skill-grid">
-        {skillReadiness.map((item) => (
-          <article className="summary-card" key={item.skill}>
-            <strong>{item.percent}%</strong>
-            <span>{item.skill}</span>
-          </article>
-        ))}
-      </div>
-
+    <ScreenShell
+      copy={
+        isOnboarding
+          ? 'Start slowly with a few words and first sentences. The course will open up only after that.'
+          : 'You only need to do one thing now: complete the next lesson in the guided loop.'
+      }
+      eyebrow="Today"
+      title={isOnboarding ? 'Start with your first Dutch words and sentences.' : 'Today you have one clear next lesson.'}
+    >
+      <FocusCard
+        body={currentStage.tip}
+        eyebrow={isOnboarding ? 'Start here' : `${currentStage.level} next`}
+        title={currentUnit.theme ?? currentUnit.module}
+      />
+      <MetricRow
+        items={[
+          { value: completedStages, label: 'stages complete' },
+          { value: `${accuracy}%`, label: 'exercise accuracy' },
+          { value: syncLabel, label: 'progress state' }
+        ]}
+      />
+      <MetricRow
+        items={skillReadiness.map((item) => ({
+          value: `${item.percent}%`,
+          label: item.skill
+        }))}
+      />
       <button className="primary-button single-cta" onClick={() => navigate('learn')} type="button">
         {isOnboarding ? 'Start onboarding' : 'Start today’s lesson'}
       </button>
-    </section>
+    </ScreenShell>
   );
 
   const renderLearn = () => (
-    <section className="screen-card practice-screen">
-      <span className="eyebrow">Learn</span>
-      <h1>{currentUnit.theme ?? currentUnit.module}</h1>
-      <p className="screen-copy">
-        Learn one sentence pattern first. Say it, hear it, and build one Dutch sentence before moving on.
-      </p>
-
-      <article className="selection-card current-stage-card">
-        <span className="eyebrow">Tip</span>
-        <p>{currentStage.tip}</p>
-      </article>
-
+    <ScreenShell
+      eyebrow="Learn"
+      title={currentUnit.theme ?? currentUnit.module}
+      copy="Learn one sentence pattern first. Say it, hear it, and build one Dutch sentence before moving on."
+    >
+      <FocusCard body={currentStage.tip} eyebrow="Tip" title="Keep this in mind" />
       {isOnboarding ? (
         <OnboardingJourney onContinue={() => navigate('drill')} onSpeak={speak} unit={currentUnit} />
       ) : (
@@ -299,17 +284,15 @@ function App() {
           </button>
         </>
       )}
-    </section>
+    </ScreenShell>
   );
 
   const renderDrill = () => (
-    <section className="screen-card practice-screen">
-      <span className="eyebrow">Drill</span>
-      <h1>Practice the pattern until it sticks.</h1>
-      <p className="screen-copy">
-        Work through the drills one by one. When you finish them, move to one exam-style task.
-      </p>
-
+    <ScreenShell
+      eyebrow="Drill"
+      title="Practice the pattern until it sticks."
+      copy="Work through the drills one by one. When you finish them, move to one exam-style task."
+    >
       <ExerciseEngine
         exerciseMeta={{
           grammar: currentUnit.grammar,
@@ -327,24 +310,22 @@ function App() {
       <button className="primary-button single-cta" onClick={() => navigate('exam')} type="button">
         Do exam task
       </button>
-    </section>
+    </ScreenShell>
   );
 
   const renderExam = () => (
-    <section className="screen-card practice-screen">
-      <span className="eyebrow">Exam task</span>
-      <h1>Use the lesson in a practical exam-style prompt.</h1>
-      <p className="screen-copy">
-        The goal here is simple: produce one useful answer like you would in a beginner Dutch exam.
-      </p>
-
-      <article className="selection-card current-stage-card">
-        <span className="eyebrow">Prompt</span>
-        <h2>{currentUnit.inburgeringExample ?? currentUnit.examLink}</h2>
-        <p>{currentUnit.winCondition ?? currentUnit.sentenceGoal}</p>
-      </article>
-
-      <div className="writing-layout exam-card">
+    <ScreenShell
+      eyebrow="Exam task"
+      title="Use the lesson in a practical exam-style prompt."
+      copy="The goal here is simple: produce one useful answer like you would in a beginner Dutch exam."
+    >
+      <FocusCard
+        body={currentUnit.winCondition ?? currentUnit.sentenceGoal}
+        eyebrow="Prompt"
+        title={currentUnit.inburgeringExample ?? currentUnit.examLink}
+        tone="dark"
+      />
+      <div className="writing-layout exam-card fade-in">
         <textarea
           className="writing-input"
           onChange={(event) => setExamResponse(event.target.value)}
@@ -364,41 +345,30 @@ function App() {
           navigate('review');
         }}
         type="button"
-      >
-        Finish exam task
-      </button>
-    </section>
+        >
+          Finish exam task
+        </button>
+    </ScreenShell>
   );
 
   const renderReview = () => (
-    <section className="screen-card">
-      <span className="eyebrow">Review</span>
-      <h1>Review mistakes, then continue tomorrow.</h1>
-      <p className="screen-copy">
-        Only look at weak points. If there are no weak points yet, the session is done and the next lesson is ready.
-      </p>
-
-      <div className="review-summary-grid">
-        <article className="summary-card">
-          <strong>{accuracy}%</strong>
-          <span>accuracy</span>
-        </article>
-        <article className="summary-card">
-          <strong>{isUnitComplete(currentUnit) ? 'Done' : 'In progress'}</strong>
-          <span>today’s unit</span>
-        </article>
-        <article className="summary-card">
-          <strong>{syncLabel}</strong>
-          <span>save state</span>
-        </article>
-      </div>
-
+    <ScreenShell
+      eyebrow="Review"
+      title="Review mistakes, then continue tomorrow."
+      copy="Only look at weak points. If there are no weak points yet, the session is done and the next lesson is ready."
+    >
+      <MetricRow
+        items={[
+          { value: `${accuracy}%`, label: 'accuracy' },
+          { value: isUnitComplete(currentUnit) ? 'Done' : 'In progress', label: 'today’s unit' },
+          { value: syncLabel, label: 'save state' }
+        ]}
+      />
       <WeakAreasPanel items={weakAreaList} />
-
       <button className="primary-button single-cta" onClick={() => navigate('today')} type="button">
         Continue course
       </button>
-    </section>
+    </ScreenShell>
   );
 
   return (

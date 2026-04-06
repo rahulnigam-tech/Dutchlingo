@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
+import ActionFooter from './ActionFooter';
 import OnboardingIcon from './OnboardingIcon';
+import PanelHeader from './PanelHeader';
 
 const wordDetails = {
   ik: {
@@ -91,13 +93,7 @@ function OnboardingJourney({ unit, onSpeak, onContinue }) {
 
   return (
     <article className="workbench-card onboarding-card">
-      <div className="workbench-header">
-        <div>
-          <span className="eyebrow">Onboarding</span>
-          <h3>{unit.theme}</h3>
-        </div>
-        <div className="grammar-chip">{unit.grammar}</div>
-      </div>
+      <PanelHeader eyebrow="Onboarding" meta={unit.grammar} title={unit.theme} />
 
       {!finishedWords ? (
         <section className="onboarding-panel">
@@ -111,18 +107,22 @@ function OnboardingJourney({ unit, onSpeak, onContinue }) {
               <p className="word-meaning">{currentWordDetail.meaning}</p>
             </div>
           </div>
-          <button className="secondary-button speech-button" onClick={repeatWord} type="button">
-            Hear this word
-          </button>
           <p className="repeat-counter">Repeat count: {wordRepeatCount}/2</p>
-          <button
-            className="primary-button single-cta"
-            disabled={wordRepeatCount < 2}
-            onClick={nextWord}
-            type="button"
-          >
-            Next word
-          </button>
+          <ActionFooter>
+            <div className="inline-actions">
+              <button className="secondary-button speech-button" onClick={repeatWord} type="button">
+                Hear this word
+              </button>
+              <button
+                className="primary-button"
+                disabled={wordRepeatCount < 2}
+                onClick={nextWord}
+                type="button"
+              >
+                Next word
+              </button>
+            </div>
+          </ActionFooter>
 
           {popupOpen ? (
             <div className="surprise-popup">
@@ -145,14 +145,16 @@ function OnboardingJourney({ unit, onSpeak, onContinue }) {
             Repeat it aloud before moving on. The goal is comfort, not speed.
           </p>
           <p className="repeat-counter">Repeat count: {sentenceRepeatCount}/1</p>
-          <button
-            className="primary-button single-cta"
-            disabled={sentenceRepeatCount < 1}
-            onClick={nextSentence}
-            type="button"
-          >
-            Next sentence
-          </button>
+          <ActionFooter>
+            <button
+              className="primary-button"
+              disabled={sentenceRepeatCount < 1}
+              onClick={nextSentence}
+              type="button"
+            >
+              Next sentence
+            </button>
+          </ActionFooter>
         </section>
       ) : (
         <section className="onboarding-panel">
@@ -161,9 +163,11 @@ function OnboardingJourney({ unit, onSpeak, onContinue }) {
           <p className="workbench-note">
             You have seen the first words and first sentence patterns. Now move into the guided drills.
           </p>
-          <button className="primary-button single-cta" onClick={onContinue} type="button">
-            Start drills
-          </button>
+          <ActionFooter>
+            <button className="primary-button" onClick={onContinue} type="button">
+              Start drills
+            </button>
+          </ActionFooter>
         </section>
       )}
     </article>

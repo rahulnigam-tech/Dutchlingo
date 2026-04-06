@@ -1,4 +1,6 @@
 import { useMemo, useState } from 'react';
+import ActionFooter from './ActionFooter';
+import PanelHeader from './PanelHeader';
 
 function normalizeText(value) {
   return value.trim().replace(/\s+/g, ' ').toLowerCase();
@@ -115,18 +117,16 @@ function ExerciseEngine({ lessonId, title, exercises, progress, onMarkExercise, 
 
   return (
     <article className="exercise-card">
-      <div className="exercise-topbar">
-        <div>
-          <span className="eyebrow">Practice</span>
-          <h3>{title}</h3>
-        </div>
-        <div className="exercise-summary">
-          <strong>{activeExercise + 1}</strong>
-          <span>
-            of {exercises.length} tasks
-          </span>
-        </div>
-      </div>
+      <PanelHeader
+        eyebrow="Practice"
+        meta={
+          <div className="exercise-summary">
+            <strong>{activeExercise + 1}</strong>
+            <span>of {exercises.length} tasks</span>
+          </div>
+        }
+        title={title}
+      />
 
       <div className="exercise-body">
         <p className="panel-label">{currentExercise.prompt}</p>
@@ -219,7 +219,8 @@ function ExerciseEngine({ lessonId, title, exercises, progress, onMarkExercise, 
           </div>
         )}
 
-        <div className="exercise-actions">
+        <ActionFooter>
+          <div className="exercise-actions">
           {revealed ? (
             <button
               className="primary-button exercise-submit"
@@ -246,7 +247,8 @@ function ExerciseEngine({ lessonId, title, exercises, progress, onMarkExercise, 
               Check answer
             </button>
           )}
-        </div>
+          </div>
+        </ActionFooter>
 
         <div className={revealed ? 'exercise-feedback visible' : 'exercise-feedback'}>
           {revealed ? (

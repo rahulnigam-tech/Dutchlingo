@@ -11,12 +11,8 @@ function WeakAreasPanel({ items }) {
             <article className="review-card" key={`${item.level}-${item.lessonTitle}`}>
               <span className="eyebrow">{item.level || 'Review'}</span>
               <h3>{item.lessonTitle}</h3>
-              <p>
-                <strong>Grammar:</strong> {item.grammar || 'Mixed topic'}
-              </p>
-              <p>
-                <strong>Misses:</strong> {item.misses}
-              </p>
+              <p>{item.grammar || 'Mixed topic'}</p>
+              <p>{item.misses} misses</p>
             </article>
           ))
         ) : (

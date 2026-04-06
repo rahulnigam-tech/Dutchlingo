@@ -125,6 +125,41 @@ textarea {
   display: grid;
 }
 
+.screen-stack {
+  display: grid;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.panel-meta,
+.grammar-chip {
+  padding: 10px 14px;
+  border-radius: 16px;
+  background: rgba(14, 94, 184, 0.08);
+  color: #0c437f;
+  font-weight: 700;
+}
+
+.action-footer {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 12px;
+}
+
+.inline-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 .screen-card,
 .workbench-card,
 .exercise-card,
@@ -138,6 +173,7 @@ textarea {
 .screen-card {
   padding: 34px;
   border-radius: 28px;
+  animation: fadeSlide 280ms ease;
 }
 
 .hero-screen {
@@ -198,7 +234,8 @@ textarea {
   margin: 24px 0;
 }
 
-.skill-grid {
+.skill-grid,
+.metric-row {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
@@ -208,6 +245,12 @@ textarea {
   border-radius: 20px;
   background: #f5f8fb;
   border: 1px solid rgba(18, 32, 51, 0.06);
+}
+
+.metric-tile {
+  min-height: 90px;
+  display: grid;
+  align-content: space-between;
 }
 
 .screen-stats strong,
@@ -349,13 +392,27 @@ textarea {
 }
 
 .selection-card {
-  margin-top: 18px;
   padding: 24px;
   border-radius: 24px;
 }
 
 .current-stage-card {
   background: linear-gradient(180deg, #fff9ec 0%, #ffffff 100%);
+}
+
+.focus-card {
+  animation: fadeSlide 320ms ease;
+}
+
+.focus-card.dark {
+  background: #122033;
+  border-color: #122033;
+}
+
+.focus-card.dark .eyebrow,
+.focus-card.dark h2,
+.focus-card.dark p {
+  color: #ffffff;
 }
 
 .onboarding-card {
@@ -426,6 +483,7 @@ textarea {
   background: #122033;
   color: #ffffff;
   box-shadow: 0 20px 40px rgba(18, 32, 51, 0.2);
+  animation: fadeSlide 260ms ease;
 }
 
 .surprise-popup .eyebrow,
@@ -497,22 +555,7 @@ textarea {
   margin-top: 20px;
   padding: 24px;
   border-radius: 24px;
-}
-
-.workbench-header {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  align-items: flex-start;
-  margin-bottom: 18px;
-}
-
-.grammar-chip {
-  padding: 10px 14px;
-  border-radius: 16px;
-  background: rgba(14, 94, 184, 0.08);
-  color: #0c437f;
-  font-weight: 700;
+  animation: fadeSlide 320ms ease;
 }
 
 .workbench-panel {
@@ -580,17 +623,9 @@ textarea {
 }
 
 .exercise-card {
-  margin-top: 18px;
   padding: 24px;
   border-radius: 24px;
-}
-
-.exercise-topbar {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  align-items: flex-start;
-  margin-bottom: 14px;
+  animation: fadeSlide 340ms ease;
 }
 
 .exercise-summary {
@@ -686,11 +721,11 @@ textarea {
 }
 
 .exam-card {
-  margin-top: 18px;
+  margin-top: 0;
 }
 
 .exercise-actions {
-  margin-top: 18px;
+  margin-top: 0;
 }
 
 .exercise-submit:disabled {
@@ -720,7 +755,7 @@ textarea {
 }
 
 .weak-panel {
-  margin-top: 20px;
+  margin-top: 0;
 }
 
 .review-summary-grid {
@@ -762,12 +797,29 @@ textarea {
   transition: opacity 160ms ease;
 }
 
+.fade-in {
+  animation: fadeSlide 300ms ease;
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 900px) {
   .screen-stats,
   .review-summary-grid,
   .review-grid,
   .syllabus-grid,
   .skill-grid,
+  .metric-row,
   .matching-layout,
   .level-switcher,
   .workflow-strip {
@@ -794,7 +846,7 @@ textarea {
     font-size: clamp(2rem, 10vw, 3rem);
   }
 
-  .workbench-header,
+  .panel-header,
   .exercise-topbar {
     flex-direction: column;
   }
