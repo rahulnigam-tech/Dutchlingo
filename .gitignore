@@ -1,0 +1,5 @@
+node_modules/
+dist/
+.codex/
+data/progress.json
+.DS_Store
