@@ -187,7 +187,8 @@ textarea {
 .review-summary-grid,
 .review-grid,
 .workbench-grid,
-.syllabus-grid {
+.syllabus-grid,
+.skill-grid {
   display: grid;
   gap: 14px;
 }
@@ -195,6 +196,10 @@ textarea {
 .screen-stats {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: 24px 0;
+}
+
+.skill-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .screen-stats article,
@@ -351,6 +356,87 @@ textarea {
 
 .current-stage-card {
   background: linear-gradient(180deg, #fff9ec 0%, #ffffff 100%);
+}
+
+.onboarding-card {
+  position: relative;
+}
+
+.onboarding-panel {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 20px;
+  background: #f7fafc;
+  border: 1px solid rgba(18, 32, 51, 0.06);
+}
+
+.onboarding-word,
+.onboarding-sentence {
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  line-height: 1.1;
+}
+
+.onboarding-word-wrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.onboarding-word-block {
+  display: grid;
+  gap: 6px;
+}
+
+.onboarding-word {
+  padding: 22px 18px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #fff6db 0%, #ffffff 100%);
+  border: 1px solid rgba(207, 136, 0, 0.18);
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.word-icon {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  border-radius: 22px;
+  background: #122033;
+  color: #ffffff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.svg-icon {
+  width: 44px;
+  height: 44px;
+}
+
+.word-meaning,
+.repeat-counter {
+  margin: 0;
+  color: var(--muted);
+}
+
+.surprise-popup {
+  padding: 18px;
+  border-radius: 20px;
+  background: #122033;
+  color: #ffffff;
+  box-shadow: 0 20px 40px rgba(18, 32, 51, 0.2);
+}
+
+.surprise-popup .eyebrow,
+.surprise-popup p {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.surprise-popup h4 {
+  margin: 0 0 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.3rem;
 }
 
 .stage-list {
@@ -599,6 +685,10 @@ textarea {
   resize: vertical;
 }
 
+.exam-card {
+  margin-top: 18px;
+}
+
 .exercise-actions {
   margin-top: 18px;
 }
@@ -677,6 +767,7 @@ textarea {
   .review-summary-grid,
   .review-grid,
   .syllabus-grid,
+  .skill-grid,
   .matching-layout,
   .level-switcher,
   .workflow-strip {
@@ -706,5 +797,10 @@ textarea {
   .workbench-header,
   .exercise-topbar {
     flex-direction: column;
+  }
+
+  .onboarding-word-wrap {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

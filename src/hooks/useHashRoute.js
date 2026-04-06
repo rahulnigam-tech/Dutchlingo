@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-const DEFAULT_ROUTE = 'home';
-const allowedRoutes = new Set(['home', 'course']);
+const DEFAULT_ROUTE = 'today';
+const allowedRoutes = new Set(['today', 'learn', 'drill', 'exam', 'review']);
 
 function getRouteFromHash() {
   const value = window.location.hash.replace('#', '');
